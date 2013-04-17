@@ -1,4 +1,5 @@
 .gitignore~
+*.md~
 *.gemspec~
 lib/*.rb~
 data/*.rb~
