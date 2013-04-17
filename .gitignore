@@ -1,0 +1,5 @@
+.gitignore~
+*.gemspec~
+lib/*.rb~
+data/*.rb~
+detect/*.rb~
