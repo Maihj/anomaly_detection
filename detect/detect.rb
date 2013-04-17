@@ -99,10 +99,10 @@ loop do
   if u.printProb == 0.0
 	`exit`
   else
-	openfile = File.open("/home/#{$username}/#{$filename}", "a+") do
-	  for i in 0...new_observation.length
-		openfile.puts new_observation[i]
-	  end
+	openfile = File.open("/home/#{$username}/#{$filename}", "a+")
+	for i in 0...new_observation.length
+	  openfile.puts new_observation[i]
 	end
+	openfile.close
   end
 end
