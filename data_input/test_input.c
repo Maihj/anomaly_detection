@@ -13,7 +13,6 @@ void usage(char *str){
 int main(int argc, char **argv){
 	pid_t pid;
 	FILE *fd1, *fd2;
-	char array[3];
 	struct input_event event1, event2;
 
 	if (argc != 3) usage(argv[0]);
