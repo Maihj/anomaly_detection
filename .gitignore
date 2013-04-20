@@ -4,4 +4,6 @@
 *.gemspec~
 lib/*.rb~
 data/
+data_input/*.c~
+data_input/*.rb~
 detect/*.rb~
