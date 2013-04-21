@@ -1,6 +1,6 @@
 require 'anomaly_hmm'
 
-$filename = 'a.txt'
+$filename = 'kbd_mouse_data0.txt'
 $unique_seq, $observation_seq = [], []
 
 #index the commands in a.txt
@@ -34,6 +34,8 @@ puts "\n"
 print pi
 puts "\n"
 u.test($observation_seq[0...100])
+print u.printProb
+puts "\n"
 t2 = Time.now.to_i
 total = t2 - t1
 if total == 1 || total == 0
