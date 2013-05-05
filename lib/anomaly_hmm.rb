@@ -1,9 +1,16 @@
 include Math
 
 class AnomalyHmm
-  @@N = 2
+  
+  @@N = 0
   @@MaxIters = 10000
   
+  def getN
+	puts "Please input N (the number of hidden states): "
+	@@N = gets
+	@@N = @@N.chomp.to_i
+  end
+
   def initial(unique_seq)
 	@unique_seq = unique_seq
 	@@M = @unique_seq.length
@@ -172,6 +179,7 @@ class AnomalyHmm
 	@observation_seq = observation_seq
 	iter = 0
 	oldLogProb = -1.0 / 0
+	getN
 	initial(@unique_seq)
 	forward(@observation_seq)
 	backward(@observation_seq)
@@ -268,156 +276,3 @@ class AnomalyHmm
 	@@prob
   end
 end
-
-=begin
-def read_commands
-  newfile = File.new("/home/#{$username}/commands.txt", "w")
-  File.foreach "/home/#{$username}/.bash_history" do |line|
-	if (i = line.index(" ")) != nil
-	  if line[0...i] == "sudo"
-		if (j = line[(i+1)..-1].index(" ")) != nil
-		  j = j + i + 1
-		  newfile.puts line[0...i]+"_"+line[(i+1)...j]
-		else
-		  newfile.puts line[0...i]+"_"+line[(i+1)..-1]
-		end
-	  else
-		newfile.puts line[0...i]
-	  end
-	else
-	  newfile.puts line
-	end
-  end
-  newfile.close
-end
-
-def index_commands
-  File.foreach "/home/#{$username}/commands.txt" do |line|
-	line = line.chomp
-	if !$unique_seq.include?(line)
-	  $unique_seq << line
-	end
-  end
-  File.foreach "/home/#{$username}/commands.txt" do |line|
-	line = line.chomp
-	$observation_seq << $unique_seq.index(line)
-  end
-end
-
-def train_again(observation_str)
-  b = AnomalyHmm.new
-
-  observation_index = []
-  @observation_str = observation_str
-  @observation_str.each do |s|
-	s = s.chomp
-	if !$unique_seq.include?(s)
-	  puts "Do you want to confirm this operation: #{s}?(y/n)"
-	  ans = gets
-	  ans = ans.chomp
-	  if ans == "Y" || ans == "y"
-		$unique_seq << s
-	  elsif ans == "N" || ans == "n"
-		puts "ATTACK!!!"
-		exec("exit")
-	  else 
-		exec("exit")
-	  end
-	end
-  end
-  
-  #new observation sequence
-  $observation_seq = []
-  @observation_str.each do |s|
-	  s = s.chomp
-	  $observation_seq << $unique_seq.index(s)
-  end
-  
-  $M = $unique_seq.length
-  $T = $observation_seq.length
-  b.train
-end
-
-def test(observation)
-  @observation = observation
-  t1 = @observation.length
-  alpha = Array.new(t1){Array.new($N, 0)}
-  c = Array.new(t1, 0)
-	
-  #compute alpha[0][i]
-  for i in 0...$N
-	alpha[0][i] = $pi[i] * $B[i][@observation[0]]
-	c[0] = c[0] + alpha[0][i]
-  end
-	
-  #scale the alpha[0][i]
-  c[0] = 1.0 / c[0]
-  for i in 0...$N
-	alpha[0][i] = c[0] * alpha[0][i]
-  end
-  
-  #compute alpha[t][i] iteratively
-  for t in 1...t1
-	c[t] = 0
-	for i in 0...$N
-	  alpha[t][i] = 0
-	  for j in 0...$N
-		alpha[t][i] = alpha[t][i] + alpha[t-1][j] * $A[j][i]
-	  end
-	  alpha[t][i] = alpha[t][i] * $B[i][@observation[t]]
-	  c[t] = c[t] + alpha[t][i]
-	end
-	
-	#scale alpha[t][i]
-	c[t] = 1.0 / c[t]
-	for i in 0...$N
-	  alpha[t][i] = c[t] * alpha[t][i]
-	end
-  end
-  #compute log[P(O|lambda)]
-  logProb = 0
-  for i in 0...t1
-	logProb = logProb + Math.log(c[i])
-  end
-  logProb = -logProb
-  puts logProb
-end
-
-#read_commands
-#index_commands
-
-#a = AnomalyHmm.new
-
-# $t1 = Time.now.to_i
-#a.initial
-#a.train
-# $t2 = Time.now.to_i
-#total = $t2 - $t1
-#if total == 1
- # puts "The pragram costs "+total.to_s+" second.\n"
-#else
- # puts "The pragram costs "+total.to_s+" seconds.\n"
-#end
-
-#observation = []
-#File.foreach "/home/#{$username}/commands.txt" do |line|
- # if (i = line.index(" ")) != nil
-#	if line[0...i] == "sudo"
-#	  if (j = line[(i+1)..-1].index(" ")) != nil
-#		j = j + i + 1
-#		observation << line[0...i]+"_"+line[(i+1)...j]
-#	  else
-#		observation_seq << line[0...i]+"_"+line[(i+1)..-1]
-#	  end
-#	else
-#	  observation << line[0...i]
-#	end
- # else
-#	observation << line
- # end
-#end
-
-#train_again(observation)
-#test([0,50])
-
-=end
