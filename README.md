@@ -14,16 +14,16 @@ To install this program, simply run:
     $ sudo gem install anomaly_hmm
 
 #Command Line Based#
-Using command lines from .bash_history to train a HMM for a specific user. Then, testing every 10 coming command the user issued to get the probability of this command sequence(after data processing).
+Using command lines from *.bash_history*, without parameters and options to train a HMM for a specific user. Then, testing every 10 coming command the user issued to get the probability of this command sequence(after data processing).
 
 To detect masquerades, just run:
 
     $ cd detect/
 
-    $ ruby detect.rb
+    $ ruby detect_cl.rb
 
 ##GUI Based##
-Using data in /dev/input/eventX to train a HMM for a specific user, and then testing every 50 lines in that file to get probability of it. The input devices we choose are keyboard and mouse. See file /proc/bus/input/devices to find which events match the keyboard and mouse.
+Using data in */dev/input/eventX* to train a HMM for a specific user, and then testing every 50 lines in that file to get probability of it. The input devices we choose are keyboard and mouse. See file */proc/bus/input/devices* to find which events match the keyboard and mouse.
 
 To capture the input event data, run:
 
@@ -53,8 +53,8 @@ After training, we can find three files showing the results:
     result1.txt
     result2.txt
 
-To detect masquerades, you should first collect your input data in a file, and then run:
+To detect masquerades, you should first collect your input data in a file, for example, *test_events.txt*, and then run:
 
-    $ ruby detect.rb
+    $ ruby detect_gui.rb
 
 to build up the user profile, finally test the coming input data.
