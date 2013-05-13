@@ -3,7 +3,9 @@
 *.md~
 *.gemspec~
 lib/*.rb~
-data/
+data/*.rb~
+data/*.md~
 data_input/*.c~
 data_input/*.rb~
+data_input/*.md~
 detect/*.rb~
