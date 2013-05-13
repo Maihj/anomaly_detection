@@ -6,7 +6,8 @@ Three users' commands based on *.bash_history*:
     history1.txt  
     history2.txt  
 
-Testing user data:  
+Testing user data:
+
     test.rb  
 
 Results for training & testing data when hidden states is 2:
